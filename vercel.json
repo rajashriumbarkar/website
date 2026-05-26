@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/source-path",
-      "destination": "/index.html"
+      "destination": "/index.php"
     }
   ]
 }
