@@ -201,3 +201,61 @@ width: 1500px;  margin-left:20%; backgound-color:white">
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
+<?php
+// Database configuration
+$servername = "localhost"; // Change if needed
+$username   = "root";       // Your MySQL username
+$password   = "";           // Your MySQL password
+$dbname     = "db";     // Your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Validate and sanitize POST data
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstname = trim($_POST['firstname'] ?? 'br');
+    $lastname  = trim($_POST['lastname'] ?? 'br');
+    $phonenumber  = trim($_POST['phonenumber'] ?? 'br ');
+    $email     = trim($_POST['email'] ?? 'br');
+    $user_password = $_POST['password'] ?? 'br';
+    
+
+    // Basic validation
+    if (empty($firstname) || empty($lastname)|| empty($phonenumber)  || empty($email) || empty($user_password)) {
+        die("All fields are required.");
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Invalid email format.");
+    }
+    // Hash the password securely
+    $hashed_password = password_hash($user_password, PASSWORD_DEFAULT);
+
+
+    // Prepare SQL statement
+    $stmt = $conn->prepare("INSERT INTO users (firstname, lastname,phonenumber,email,password) VALUES (?, ?, ?,?,?)");
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    // Bind parameters (s = string)
+    $stmt->bind_param("sssss", $firstname, $lastname,$phonenumber, $email,$hashed_password);
+
+    // Execute and check result
+    if ($stmt->execute()) {
+        echo "Record inserted successfully.";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close statement
+    $stmt->close();
+}
+
+// Close connection
+$conn->close();
+?>

@@ -42,7 +42,7 @@ require_once "db_connect.php"
 <div class="invester">Invester 
 </div>
 
-<div class="header-right">
+
   <div class="profile-container">
     <!-- The User Icon SVG -->
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="profile-icon">
@@ -109,7 +109,7 @@ require_once "db_connect.php"
 </div>
  
 
-</div>
+
 <hr>
 <script src="js/script.js"></script>
 <hr>
@@ -191,10 +191,12 @@ require_once "db_connect.php"
 
 
 <header>
+ 
 
 </header> 
             
 <main>
+ 
     
   <div class="column" style="background-color:whitesmoke">
  
@@ -238,7 +240,12 @@ require_once "db_connect.php"
                
         </div>
        <script src="js/recentitem.js"></script>   
-                        
+       
+
+
+
+
+                
     <p>Some text..</p>
   </div>
   <div class="column" style="background-color:whitesmoke;">
@@ -253,6 +260,8 @@ require_once "db_connect.php"
 
                 ?>
 
+ 
+
 
    
 
@@ -260,18 +269,31 @@ require_once "db_connect.php"
  
 
 </main>
+         
+ <img src="image/chatboticon.png" alt="Chatbot" width="70" height="100" class="chatbot-icon" onclick="toggleChat()">
+ <script src="js/chatbot.js"></script> 
+ <div class="chat-container" id="chatContainer">
+    <div class="chat-header">Support Chatbot</div>
+    <div class="chat-box" id="chatBox">
+        <div class="message bot-msg">Hello! How can I help you today?</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+<script src="js/chatbot.js"></script> 
+ 
+ <?php
+                include("chatbot.php");
+                // Fetch and display users
+
+                ?>
 
 
 
 
-
-
-
-
-
-
-
-
+    
 
 
 

@@ -960,3 +960,43 @@ Internal Dropdown Styling
 .signup-submit-btn:hover {
     background-color: #d31f7c;
 }
+  /* Chatbot styling */
+  
+ /* Pin the icon to the bottom right of the screen */
+        .chatbot-icon { 
+            cursor: pointer; 
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px; 
+            z-index: 1000; 
+            transition: transform 0.2s ease;
+        }
+        /* Little pop effect when hovering over the icon */
+        .chatbot-icon:hover { 
+            transform: scale(1.1); 
+        }
+
+        /* Pin the chat window just above the icon and hide it initially */
+        .chat-container { 
+            display: none; /* Keeps it hidden on page load */
+            flex-direction: column;
+            width: 350px; 
+            height: 450px;
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2); 
+            overflow: hidden; 
+            position: fixed;
+            bottom: 130px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        /* Basic Chat styling internals */
+        .chat-header { background: #8c9116; color: white; padding: 15px; text-align: center; font-weight: bold; }
+        .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9f9fb; }
+        .message { padding: 10px; border-radius: 8px; max-width: 75%; }
+        .bot-msg { background: #e9ecef; color: #333; align-self: flex-start; }
+        .input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; }
+        .input-area input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px; outline: none; }
+        .input-area button { background: #8c9116; color: white; border: none; padding: 8px 12px; margin-left: 5px; border-radius: 4px; cursor: pointer; }

@@ -174,3 +174,110 @@ window.onclick = function(event) {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple PHP Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .chat-container { width: 400px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .chat-header { background: #007bff; color: white; padding: 15px; text-align: center; font-weight: bold; }
+        .chat-box { height: 300px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #ddd; }
+        .message { padding: 10px; border-radius: 5px; max-width: 75%; word-wrap: break-word; }
+        .user-msg { background: #007bff; color: white; align-self: flex-end; }
+        .bot-msg { background: #e9ecef; color: #333; align-self: flex-start; }
+        .input-area { display: flex; padding: 10px; background: #fff; }
+        .input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; outline: none; }
+        .input-area button { background: #007bff; color: white; border: none; padding: 10px 15px; margin-left: 5px; border-radius: 4px; cursor: pointer; }
+        .input-area button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">Support Chatbot</div>
+    <div class="chat-box" id="chatBox">
+        <div class="message bot-msg">Hello! How can I help you today?</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+<script>async function sendMessage() {
+    const inputField = document.getElementById("userInput");
+    const chatBox = document.getElementById("chatBox");
+    const userText = inputField.value.trim();
+
+    if (userText === "") return;
+
+    // 1. Display User Message
+    const userDiv = document.createElement("div");
+    userDiv.className = "message user-msg";
+    userDiv.textContent = userText;
+    chatBox.appendChild(userDiv);
+
+    // Clear input and scroll down
+    inputField.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        // 2. Send Message to PHP Backend
+        const response = await fetch("bot.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "message=" + encodeURIComponent(userText)
+        });
+
+        const botReply = await response.text();
+
+        // 3. Display Bot Reply
+        const botDiv = document.createElement("div");
+        botDiv.className = "message bot-msg";
+        botDiv.textContent = botReply;
+        chatBox.appendChild(botDiv);
+
+        // Scroll down again
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    } catch (error) {
+        console.error("Error connecting to the bot server:", error);
+    }
+}
+
+// Allow pressing 'Enter' to send
+document.getElementById("userInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendMessage();
+});</script>
+<?php
+// Check if the message is received via POST
+if (isset($_POST['message'])) {
+    $userMessage = strtolower(trim($_POST['message']));
+    $reply = "";
+
+    // Simple keyword matching logic
+    if (strpos($userMessage, 'hello') !== false || strpos($userMessage, 'hi') !== false) {
+        $reply = "Hey there! How's it going?";
+    } elseif (strpos($userMessage, 'your name') !== false) {
+        $reply = "I'm PHPBot, your friendly neighborhood script.";
+    } elseif (strpos($userMessage, 'help') !== false) {
+        $reply = "Sure! You can ask me about my name, or just say hello.";
+    } elseif (strpos($userMessage, 'bye') !== false) {
+        $reply = "Goodbye! Have a great day!";
+    } else {
+        // Default fallback response
+        $reply = "I'm sorry, I didn't quite catch that. Could you try phrasing it differently?";
+    }
+
+    // Echo the reply back to JavaScript
+    echo $reply;
+} else {
+    echo "Direct access not allowed.";
+}
+?>

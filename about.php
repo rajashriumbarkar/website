@@ -468,7 +468,10 @@ Read more
   <p>Author: Rajashri Umbakar
   <a href="mailto:rajashriumbarkar@26.com">rajashri@go-green.com</a></p>
 
-
+   <div class="web_logo">
+        <a href="upload_product.php">
+        <img src="image/logo.png" width="50px"></a>
+</div>
 
 
  
